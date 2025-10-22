@@ -2,9 +2,6 @@ import array
 
 # usar mapa de bits para gerenciar os blocos livres
 
-DISK_SIZE = 32
-NULL_POINTER = None
-
 class Block:
     def __init__(self,data:str):
         self.data = data
@@ -26,28 +23,34 @@ class List:
         self.start = block
 
 class Directory_Table:
-    def __init__(self, name:str, address:int):
-        self.name = name
-        self.address = address
+    def __init__(self):
+        self.files = {}
+
+    def add_file(self, file_name: str, file_content: str):
+        if file_name in self.files:
+            return f"Error: File '{file_name}' already exists!"
+        self.files[file_name] = file_content
+    
+    
+    def list_files(self):
+        return list(self.files.keys())
+class Available_Blocks:
+    def __init__(self):
+        pass
 
 class System:
     def __init__(self):
-        directory_table = Directory_Table()
+        self.directory_table = Directory_Table()
+        self.available_blocks = Available_Blocks()
 
     def create_file(self, name:str, content:str):
         content_size = len(content)
-        if name in directory_table:
-            return (f"Error: File '{name}' already exists!")
-        available_blocks = "something" ###
-        if content_size > len(available_blocks):
+        if content_size > len(self.available_blocks):
             return ("Error: Not enough memory to store the file!")
-    
-        
-        for file in directory_table:
-            1
-        return
+        return self.directory_table.add_file(name, content)
     def read_file(self, name:str):
         return
     def delete_file(self, name:str):
         return
     
+
